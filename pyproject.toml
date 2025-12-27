@@ -1,0 +1,60 @@
+[build-system]
+requires = ["scikit-build-core>=0.3.3", "pybind11>=2.10"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "sbbf"
+version = "1.0.0"
+description = "Spatial-Blocked Bloom Filter with Space-Filling Curve locality"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "SBBF Authors"}
+]
+keywords = ["bloom-filter", "spatial", "data-structure", "hilbert-curve", "morton-code"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.optional-dependencies]
+benchmarks = [
+    "h5py>=3.0",
+    "numpy>=1.20",
+    "matplotlib>=3.0",
+    "tqdm>=4.0",
+]
+voxel = [
+    "trimesh>=3.9",
+    "pyvista>=0.30",
+    "h5py>=3.0",
+    "numpy>=1.20",
+]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/sbbf"
+Documentation = "https://github.com/your-org/sbbf#readme"
+Repository = "https://github.com/your-org/sbbf"
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
+cmake.build-type = "Release"
+cmake.args = ["-DSBBF_BUILD_PYTHON=ON", "-DSBBF_BUILD_TESTS=OFF", "-DSBBF_BUILD_BENCHMARKS=OFF"]
+
+[tool.scikit-build.cmake.define]
+SBBF_BUILD_PYTHON = "ON"
+SBBF_BUILD_TESTS = "OFF"
+SBBF_BUILD_BENCHMARKS = "OFF"

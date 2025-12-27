@@ -1,0 +1,48 @@
+# Build directories
+build/
+cmake-build-*/
+_skbuild/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Compiled files
+*.o
+*.a
+*.dylib
+
+# Test outputs
+*.log
+
+# Datasets (downloaded)
+datasets/hdf5/
+datasets/meshes/
+
+# Results
+results/
+sbbf_results/
+
+# Coverage
+htmlcov/
+.coverage
+
+# Jupyter
+.ipynb_checkpoints/
