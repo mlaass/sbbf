@@ -86,7 +86,7 @@ neighbors = bf.neighbors3d(10, 20, 30, full_26=True)
 
 ```bash
 # Clone with submodules
-git clone --recursive https://github.com/your-org/sbbf.git
+git clone --recursive https://github.com/mlaass/sbbf.git
 cd sbbf
 
 # Build
@@ -243,8 +243,8 @@ If you use SBBF in your research, please cite:
 ```bibtex
 @software{sbbf,
   title = {SBBF: Spatial-Blocked Bloom Filter},
-  author = {SBBF Authors},
+  author = {Moritz Laass, Martin Werner},
   year = {2024},
-  url = {https://github.com/your-org/sbbf}
+  url = {https://github.com/mlaass/sbbf}
 }
 ```
