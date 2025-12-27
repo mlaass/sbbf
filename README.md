@@ -80,6 +80,34 @@ present = bf.query3d(10, 20, 30)  # True
 neighbors = bf.neighbors3d(10, 20, 30, full_26=True)
 ```
 
+### Space-Filling Curves (Python)
+
+The SFC functions are also available directly for use without the bloom filter:
+
+```python
+import sbbf
+
+# Morton (Z-order) curve - 2D
+code = sbbf.morton2d_encode(100, 200)
+x, y = sbbf.morton2d_decode(code)
+assert (x, y) == (100, 200)
+
+# Morton curve - 3D
+code = sbbf.morton3d_encode(10, 20, 30)
+x, y, z = sbbf.morton3d_decode(code)
+assert (x, y, z) == (10, 20, 30)
+
+# Hilbert curve - 2D (better locality than Morton)
+code = sbbf.hilbert2d_encode(100, 200)
+x, y = sbbf.hilbert2d_decode(code)
+assert (x, y) == (100, 200)
+
+# Hilbert curve - 3D
+code = sbbf.hilbert3d_encode(10, 20, 30)
+x, y, z = sbbf.hilbert3d_decode(code)
+assert (x, y, z) == (10, 20, 30)
+```
+
 ## Building from Source
 
 ### C++ Library and Tests

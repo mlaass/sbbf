@@ -40,6 +40,15 @@ from ._sbbf import (
     SpatialBlockedBloomFilter,
     # Helper
     make_config,
+    # Space-Filling Curve functions
+    morton2d_encode,
+    morton2d_decode,
+    morton3d_encode,
+    morton3d_decode,
+    hilbert2d_encode,
+    hilbert2d_decode,
+    hilbert3d_encode,
+    hilbert3d_decode,
     # Version
     __version__,
 )
@@ -51,5 +60,14 @@ __all__ = [
     "SBBFConfig",
     "SpatialBlockedBloomFilter",
     "make_config",
+    # Space-Filling Curve functions
+    "morton2d_encode",
+    "morton2d_decode",
+    "morton3d_encode",
+    "morton3d_decode",
+    "hilbert2d_encode",
+    "hilbert2d_decode",
+    "hilbert3d_encode",
+    "hilbert3d_decode",
     "__version__",
 ]

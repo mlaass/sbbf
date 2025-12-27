@@ -9,6 +9,7 @@
 #include <pybind11/stl.h>
 
 #include "sbbf/spatial_blocked_bloom_filter.hpp"
+#include "sbbf/space_filling_curves.hpp"
 
 namespace py = pybind11;
 
@@ -224,6 +225,94 @@ PYBIND11_MODULE(_sbbf, m) {
     "    SBBFConfig object\n\n"
     "Example:\n"
     "    config = sbbf.make_config('HILBERT_3D', log_num_blocks=16, hash_k=8)");
+
+    // ========================================================================
+    // Space-Filling Curve Functions (standalone access)
+    // ========================================================================
+
+    // Morton 2D
+    m.def("morton2d_encode", &sfc::Morton2D<16>::encode,
+        py::arg("x"), py::arg("y"),
+        "Encode 2D coordinates to Morton (Z-order) code.\n\n"
+        "Args:\n"
+        "    x, y: Coordinates (0 to 65535)\n"
+        "Returns:\n"
+        "    Morton code (uint64)");
+
+    m.def("morton2d_decode", [](uint64_t code) -> std::pair<uint32_t, uint32_t> {
+        uint32_t x, y;
+        sfc::Morton2D<16>::decode(code, x, y);
+        return {x, y};
+    },
+        py::arg("code"),
+        "Decode Morton code to 2D coordinates.\n\n"
+        "Args:\n"
+        "    code: Morton code\n"
+        "Returns:\n"
+        "    Tuple (x, y)");
+
+    // Morton 3D
+    m.def("morton3d_encode", &sfc::Morton3D<16>::encode,
+        py::arg("x"), py::arg("y"), py::arg("z"),
+        "Encode 3D coordinates to Morton (Z-order) code.\n\n"
+        "Args:\n"
+        "    x, y, z: Coordinates (0 to 65535)\n"
+        "Returns:\n"
+        "    Morton code (uint64)");
+
+    m.def("morton3d_decode", [](uint64_t code) -> std::tuple<uint32_t, uint32_t, uint32_t> {
+        uint32_t x, y, z;
+        sfc::Morton3D<16>::decode(code, x, y, z);
+        return {x, y, z};
+    },
+        py::arg("code"),
+        "Decode Morton code to 3D coordinates.\n\n"
+        "Args:\n"
+        "    code: Morton code\n"
+        "Returns:\n"
+        "    Tuple (x, y, z)");
+
+    // Hilbert 2D
+    m.def("hilbert2d_encode", &sfc::Hilbert2D<16>::encode,
+        py::arg("x"), py::arg("y"),
+        "Encode 2D coordinates to Hilbert curve code.\n\n"
+        "Args:\n"
+        "    x, y: Coordinates (0 to 65535)\n"
+        "Returns:\n"
+        "    Hilbert code (uint64)");
+
+    m.def("hilbert2d_decode", [](uint64_t code) -> std::pair<uint32_t, uint32_t> {
+        uint32_t x, y;
+        sfc::Hilbert2D<16>::decode(code, x, y);
+        return {x, y};
+    },
+        py::arg("code"),
+        "Decode Hilbert code to 2D coordinates.\n\n"
+        "Args:\n"
+        "    code: Hilbert code\n"
+        "Returns:\n"
+        "    Tuple (x, y)");
+
+    // Hilbert 3D
+    m.def("hilbert3d_encode", &sfc::Hilbert3D<16>::encode,
+        py::arg("x"), py::arg("y"), py::arg("z"),
+        "Encode 3D coordinates to Hilbert curve code.\n\n"
+        "Args:\n"
+        "    x, y, z: Coordinates (0 to 65535)\n"
+        "Returns:\n"
+        "    Hilbert code (uint64)");
+
+    m.def("hilbert3d_decode", [](uint64_t code) -> std::tuple<uint32_t, uint32_t, uint32_t> {
+        uint32_t x, y, z;
+        sfc::Hilbert3D<16>::decode(code, x, y, z);
+        return {x, y, z};
+    },
+        py::arg("code"),
+        "Decode Hilbert code to 3D coordinates.\n\n"
+        "Args:\n"
+        "    code: Hilbert code\n"
+        "Returns:\n"
+        "    Tuple (x, y, z)");
 
     // Version info
     m.attr("__version__") = "1.0.0";
