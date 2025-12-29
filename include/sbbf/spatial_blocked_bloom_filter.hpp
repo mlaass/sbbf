@@ -74,7 +74,7 @@ struct SBBFConfig {
     IntraBlockStrategy intra_strategy = IntraBlockStrategy::DOUBLE_HASH;
 
     /// Unused legacy parameter (kept for config compatibility)
-    /// The split now happens at log_num_blocks: low bits -> block index, high bits -> seed
+    /// The split now happens at log_num_blocks: low bits → block index, high bits → seed
     unsigned split_point_q = 12;
 
     /// Pattern table size for PATTERN_LOOKUP strategy
@@ -332,7 +332,7 @@ public:
 
         // Prefetch center block (SFC locality means neighbors likely nearby)
         uint64_t center_sfc = encode_2d(x, y);
-        uint64_t center_block = center_sfc & block_mask_;  // LOW bits -> block index
+        uint64_t center_block = center_sfc & block_mask_;  // LOW bits → block index
         __builtin_prefetch(&blocks_[center_block], 0, 3);
 
         for (int dy = -r; dy <= r; ++dy) {
@@ -529,7 +529,7 @@ public:
     /// Get the block index for a 2D point (for debugging/analysis)
     uint64_t get_block_index_2D(uint32_t x, uint32_t y) const {
         uint64_t sfc_code = encode_2d(x, y);
-        return sfc_code & block_mask_;  // LOW bits -> block index
+        return sfc_code & block_mask_;  // LOW bits → block index
     }
 
     /// Get the SFC value for a 2D point (for debugging/analysis)
@@ -591,7 +591,7 @@ private:
     /// Split SFC code into block index and intra-block seed
     void compute_location(uint64_t sfc_code, uint64_t &block_idx,
                           uint64_t &seed) const {
-        // LOW bits -> block index (enables hardware prefetching during SFC traversal)
+        // LOW bits → block index (enables hardware prefetching during SFC traversal)
         block_idx = sfc_code & block_mask_;
 
         // Derive seed using configured strategy
@@ -629,7 +629,7 @@ private:
         constexpr uint64_t B = 64;  // Block size in bits
         uint32_t h1 = seed % B;
         uint32_t h2 = (seed / B) % B;
-        if (h2 == 0) h2 = 1;  // Ensure h2 != 0 for good distribution
+        h2 |= 1;  // Force odd to ensure gcd(h2, 64) = 1
 
         uint64_t mask = 0;
         for (unsigned i = 1; i <= config.hash_k; ++i) {
@@ -657,7 +657,7 @@ private:
         for (unsigned p = 0; p < config.multiplex_count; ++p) {
             uint64_t pattern_seed = (seed >> (p * 8)) & 0xFF;
             uint32_t h1 = pattern_seed % 64;
-            uint32_t h2 = ((pattern_seed >> 4) % 63) + 1;
+            uint32_t h2 = ((pattern_seed >> 4) % 63) | 1;  // Force odd
 
             for (unsigned i = 1; i <= bits_per_pattern; ++i) {
                 uint32_t bit_pos = (h1 + i * h2) % 64;
