@@ -264,15 +264,4 @@ Typical performance (on modern x86-64):
 
 MIT License - see LICENSE file for details.
 
-## Citation
 
-If you use SBBF in your research, please cite:
-
-```bibtex
-@software{sbbf,
-  title = {SBBF: Spatial-Blocked Bloom Filter},
-  author = {Moritz Laass, Martin Werner},
-  year = {2024},
-  url = {https://github.com/mlaass/sbbf}
-}
-```
